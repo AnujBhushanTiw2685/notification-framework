@@ -27,13 +27,10 @@ if log_file:
 
     print("\nMatching log file found:")
     print(log_file)
-    with open (log_file, "r", encoding="utf-8") as file:
-        log_content = file.read()
-        # print("\n" + "="*60)
-        # print("LOG PREVIEW")
-        # print("="*60)
 
-        # print(log_content)
+    with open(log_file, "r", encoding="utf-8") as file:
+        log_content = file.read()
+
     lines = log_content.splitlines()
 
     component = ""
@@ -42,24 +39,29 @@ if log_file:
     error_message = ""
     exit_code = ""
 
-for line in lines:
+    # Loop through all lines
+    for line in lines:
 
-    line = line.strip()
+        line = line.strip()
 
-    if "COMPONENT :" in line:
-        component = line.partition("COMPONENT :")[2].strip()
-    elif "STATUS :" in line:
-        value = line.partition("STATUS :")[2].strip()
-        if value:
-            status = value
-    elif "TIME" in line:
-        if "TIME" in line:
+        if "COMPONENT :" in line:
+            component = line.partition("COMPONENT :")[2].strip()
+
+        elif "STATUS :" in line:
+            value = line.partition("STATUS :")[2].strip()
+            if value:
+                status = value
+
+        elif "TIME" in line:
             timestamp = line.partition("TIME")[2].replace(":", "", 1).strip()
-    elif "python:" in line:
-        error_message = line
-    elif "exit code" in line.lower():
-        exit_code = line.partition("exit code")[2].replace(".", "").strip()
 
+        elif "python:" in line:
+            error_message = line
+
+        elif "exit code" in line.lower():
+            exit_code = line.partition("exit code")[2].replace(".", "").strip()
+
+    # Create summary AFTER loop finishes
     failure_summary = {
         "component": component,
         "job": job_name,
@@ -69,11 +71,11 @@ for line in lines:
         "exit_code": exit_code
     }
 
-    with open("artifacts/failure_summary.json","w") as file:
+    with open("artifacts/failure_summary.json", "w") as file:
         json.dump(failure_summary, file, indent=4)
+
     print("\n===== FAILURE SUMMARY =====")
     print(json.dumps(failure_summary, indent=4))
 
 else:
     print("\nNo matching log file found.")
-
