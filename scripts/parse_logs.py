@@ -33,7 +33,7 @@ if log_file:
         print("LOG PREVIEW")
         print("="*60)
 
-        print(log_content[-2000:])
+        print(log_content)
 else:
     print("\nNo matching log file found.")
 
