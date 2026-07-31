@@ -42,18 +42,23 @@ if log_file:
     error_message = ""
     exit_code = ""
 
-    for line in lines:
-        line = line.strip()
-        if "COMPONENT :" in line:
-            component = line.split("COMPONENT :")[-1].strip()
-        elif "STATUS :" in line:
-            status = line.split("STATUS :")[-1].strip()
-        elif "TIME :" in line:
-            timestamp = line.split("TIME :")[-1].strip()
-        elif "python :" in line:
-            error_message = line
-        elif "exit code :" in line.lower():
-            exit_code = line.split()[-1].replace(".","")
+for line in lines:
+
+    line = line.strip()
+
+    if "COMPONENT :" in line:
+        component = line.partition("COMPONENT :")[2].strip()
+    elif "STATUS :" in line:
+        value = line.partition("STATUS :")[2].strip()
+        if value:
+            status = value
+    elif "TIME" in line:
+        if "TIME" in line:
+            timestamp = line.partition("TIME")[2].replace(":", "", 1).strip()
+    elif "python:" in line:
+        error_message = line
+    elif "exit code" in line.lower():
+        exit_code = line.partition("exit code")[2].replace(".", "").strip()
 
     failure_summary = {
         "component": component,
@@ -68,7 +73,7 @@ if log_file:
         json.dump(failure_summary, file, indent=4)
     print("\n===== FAILURE SUMMARY =====")
     print(json.dumps(failure_summary, indent=4))
-    
+
 else:
     print("\nNo matching log file found.")
 
