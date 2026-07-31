@@ -49,6 +49,10 @@ jobs:
               run: |
                 python scripts/download_logs.py
 
+            - name: Run Parse Logs Script
+              run: |
+                python scripts/parse_logs.py
+
             - name: Upload Framework Artifact
               uses: actions/upload-artifact@v4
               with:
