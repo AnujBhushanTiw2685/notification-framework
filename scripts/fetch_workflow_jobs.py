@@ -5,7 +5,7 @@ import urllib.request
 OWNER = os.environ["OWNER"]
 REPOSITORY = os.environ["REPOSITORY"]
 RUN_ID = os.environ["RUN_ID"]
-TOKEN = os.environ["TOKEN"]
+TOKEN = os.environ["GITHUB_TOKEN"]
 
 url = (
     f"https://api.github.com/repos/"
