@@ -1,0 +1,41 @@
+name : Notification Framework
+
+on:
+    workflow_dispatch:
+        inputs:
+            owner:
+                description: "Repository Owner"
+                required: true
+            
+            repository:
+                description: "Repository Name"
+                required: true
+
+            run_id:
+                description: "Workflow Run ID"
+                required: true
+
+jobs:
+    notify:
+
+        runs-on: ubuntu-latest
+
+        steps:
+
+            - name: Checkout Repository 
+              uses: actions/checkout@v4
+
+            - name: Setup Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: "3.12"
+
+            - name: Run Fetch Workflow Script
+              env:
+                OWNER: ${{ github.event.inputs.owner }}
+                REPOSITORY: ${{ github.event.inputs.repository }}
+                RUN_ID: ${{ github.event.inputs.run_id }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+              run: |
+                python scripts/fetch_workflow_jobs.py
