@@ -46,3 +46,10 @@ if failed_job:
     print(f"Completed At  : {failed_job['completed_at']}")
 else:
     print("No failed jobs found.")
+
+# create artifacts directory if it doesn't exist
+os.makedirs("artifacts", exist_ok=True)
+
+# save the failed job details to a JSON file
+with open("artifacts/failed_job.json", "w") as file:
+    json.dump(failed_job, file, indent=4)

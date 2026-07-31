@@ -39,3 +39,10 @@ jobs:
 
               run: |
                 python scripts/fetch_workflow_jobs.py
+
+            - name: Upload Failed Jobs Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: failed-job
+                path: artifacts/failed_job.json
+                
