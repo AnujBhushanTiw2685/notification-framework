@@ -46,7 +46,10 @@ print(f"Logs extracted to '{extract_folder}'")
 
 print("\nExtracted log files:\n")
 
-for root, dirs, files in os.walk(extract_folder):
-    for  file in files:
-        print(os.path.join(root,file))
+for file in os.listdir(extract_folder):
+    file_path = os.path.join(extract_folder, file)
 
+    if os.path.isfile(file_path):
+        print(file_path)
+
+        
