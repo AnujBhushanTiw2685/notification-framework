@@ -1,6 +1,7 @@
 import os
 import urllib.request
 import zipfile
+import json
 
 with open("artifacts/failed_job.json", "r" ) as file:
     failed_job = json.load(file)
