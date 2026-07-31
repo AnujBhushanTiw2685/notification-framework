@@ -1,4 +1,6 @@
+import os
 import json
+
 
 with open("artifacts/failed_job.json", "r") as file:
     failed_job = json.load(file)
@@ -6,3 +8,25 @@ with open("artifacts/failed_job.json", "r") as file:
 job_name = failed_job["name"]
 
 print(f"Failed Job : {job_name}")
+
+# Define log folder
+logs_folder = "artifacts/extracted_logs"
+log_file = None
+
+# Search for the matching log file
+
+for file in os.listdir(logs_folder):
+    file_path = os.path.join(logs_folder, file)
+
+    if os.path.isfile(file_path):
+        if job_name in file:
+            log_file = file_path
+            break
+if log_file:
+
+    print("\nMatching log file found:")
+    print(log_file)
+else:
+    print("\nNo matching log file found.")
+
+    
