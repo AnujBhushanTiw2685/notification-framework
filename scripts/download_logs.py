@@ -2,9 +2,13 @@ import os
 import urllib.request
 import zipfile
 
+with open("artifacts/failed_job.json", "r" ) as file:
+    failed_job = json.load(file)
+RUN_ID = failed_job["run_id"]
+
+
 OWNER = os.environ["OWNER"]
 REPOSITORY = os.environ["REPOSITORY"]
-RUN_ID = os.environ["RUN_ID"]
 TOKEN = os.environ["GITHUB_TOKEN"]
 
 url = (
@@ -21,16 +25,17 @@ response = urllib.request.urlopen(request)
 
 # download the logs as a zip file
 
-with open("workflow_logs.zip", "wb") as file:
+os.makedirs("artifacts", exist_ok=True)
+with open("artifacts/workflow_logs.zip", "wb") as file:
     file.write(response.read())
 
 print("Workflow logs downloaded successfully.")
 
 # Extract the logs from the zip file
 
-extract_folder = "workflow_logs"
+extract_folder = "artifacts/extracted_logs"
 
-with zipfile.ZipFile("workflow_logs.zip", "r") as zip_ref:
+with zipfile.ZipFile("artifacts/workflow_logs.zip", "r") as zip_ref:
     zip_ref.extractall(extract_folder)
 
 print(f"Logs extracted to '{extract_folder}'")

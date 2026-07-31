@@ -40,9 +40,18 @@ jobs:
               run: |
                 python scripts/fetch_workflow_jobs.py
 
-            - name: Upload Failed Jobs Artifact
+            - name: Run Download Logs Script
+              env:
+                OWNER: ${{ github.event.inputs.owner }}
+                REPOSITORY: ${{ github.event.inputs.repository }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+              run: |
+                python scripts/download_logs.py
+
+            - name: Upload Framework Artifact
               uses: actions/upload-artifact@v4
               with:
-                name: failed-job
-                path: artifacts/failed_job.json
-                
+                name: notification-framework-artifacts
+                path: artifacts/
+
