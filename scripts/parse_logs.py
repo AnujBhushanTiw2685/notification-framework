@@ -29,11 +29,46 @@ if log_file:
     print(log_file)
     with open (log_file, "r", encoding="utf-8") as file:
         log_content = file.read()
-        print("\n" + "="*60)
-        print("LOG PREVIEW")
-        print("="*60)
+        # print("\n" + "="*60)
+        # print("LOG PREVIEW")
+        # print("="*60)
 
-        print(log_content)
+        # print(log_content)
+    lines = log_content.splitlines()
+
+    component = ""
+    status = ""
+    timestamp = ""
+    error_message = ""
+    exit_code = ""
+
+    for line in lines:
+        line = line.strip()
+        if "COMPONENT :" in line:
+            component = line.split("COMPONENT :")[-1].strip()
+        elif "STATUS :" in line:
+            status = line.split("STATUS :")[-1].strip()
+        elif "TIME :" in line:
+            timestamp = line.split("TIME :")[-1].strip()
+        elif "python :" in line:
+            error_message = line
+        elif "exit code :" in line.lower():
+            exit_code = line.split()[-1].replace(".","")
+
+    failure_summary = {
+        "component": component,
+        "job": job_name,
+        "status": status,
+        "timestamp": timestamp,
+        "error": error_message,
+        "exit_code": exit_code
+    }
+
+    with open("artifacts/failure_summary.json","w") as file:
+        json.dump(failure_summary, file, indent=4)
+    print("\n===== FAILURE SUMMARY =====")
+    print(json.dumps(failure_summary, indent=4))
+    
 else:
     print("\nNo matching log file found.")
 
