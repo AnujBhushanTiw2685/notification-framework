@@ -5,6 +5,10 @@ import json
 with open("artifacts/failed_job.json", "r") as file:
     failed_job = json.load(file)
 
+repository = os.environ["REPOSITORY"]
+workflow = failed_job["workflow_name"]
+run_id = failed_job["run_id"]
+run_url = failed_job["html_url"]
 job_name = failed_job["name"]
 
 print(f"Failed Job : {job_name}")
@@ -63,12 +67,18 @@ if log_file:
 
     # Create summary AFTER loop finishes
     failure_summary = {
+
+        "repository": repository,
+        "workflow": workflow,
         "component": component,
         "job": job_name,
         "status": status,
         "timestamp": timestamp,
         "error": error_message,
+        "run_id": run_id,
+        "run_url": run_url,
         "exit_code": exit_code
+
     }
 
     with open("artifacts/failure_summary.json", "w") as file:
