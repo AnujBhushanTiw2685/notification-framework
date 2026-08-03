@@ -57,6 +57,13 @@ jobs:
               run: |
                 python scripts/generate_email.py
 
+            - name: Send Email Notification
+              env:
+                SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
+                SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+              run: |
+                python scripts/smtp_sender.py
+
             - name: Upload Framework Artifact
               uses: actions/upload-artifact@v4
               with:
