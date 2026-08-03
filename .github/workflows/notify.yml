@@ -53,6 +53,10 @@ jobs:
               run: |
                 python scripts/parse_logs.py
 
+            - name: Generate HTML notification
+              run: |
+                python scripts/generate_email.py
+
             - name: Upload Framework Artifact
               uses: actions/upload-artifact@v4
               with:
