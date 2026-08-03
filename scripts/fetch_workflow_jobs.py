@@ -50,6 +50,9 @@ else:
 # create artifacts directory if it doesn't exist
 os.makedirs("artifacts", exist_ok=True)
 
+failed_job["repository"] = REPOSITORY
+failed_job["owner"] = OWNER
+
 # save the failed job details to a JSON file
 with open("artifacts/failed_job.json", "w") as file:
     json.dump(failed_job, file, indent=4)

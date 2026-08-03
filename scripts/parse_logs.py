@@ -5,7 +5,7 @@ import json
 with open("artifacts/failed_job.json", "r") as file:
     failed_job = json.load(file)
 
-repository = os.environ["REPOSITORY"]
+repository = failed_job["repository"]
 workflow = failed_job["workflow_name"]
 run_id = failed_job["run_id"]
 run_url = failed_job["html_url"]
