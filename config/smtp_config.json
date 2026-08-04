@@ -1,10 +1,11 @@
 {
-    "smtp_server": "smtp-mail.outlook.com",
+    "smtp_server": "smtp.gmail.com",
     "smtp_port": 587,
     "sender_name": "CI/CD Notification Framework",
     "recipients": [
-        "tiwarianujbhushan@outlook.com",
-        "tiwarianuj2685@outlook.com"
+        "anujbhushantiwari2022@vitbhopal.ac.in",
+        "anujbhushantiwari@gmail.com",
+        "tiwarianuj2273@gmail.com"
 
     ]
 }
