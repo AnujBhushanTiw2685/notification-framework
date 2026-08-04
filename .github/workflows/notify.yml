@@ -35,7 +35,7 @@ jobs:
 
             - name: Run Fetch Workflow Script
               env:
-                OWNER: ${{ github.event.inputs.owner }}
+                OWNER: ${{ github.event.client_payload.owner }}
                 REPOSITORY: ${{ github.event.client_payload.repository }}
                 RUN_ID: ${{ github.event.client_payload.run_id }}
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,8 +45,8 @@ jobs:
 
             - name: Run Download Logs Script
               env:
-                OWNER: ${{ github.event.inputs.owner }}
-                REPOSITORY: ${{ github.event.inputs.repository }}
+                OWNER: ${{ github.event.client_payload.owner }}
+                REPOSITORY: ${{ github.event.client_payload.repository }}
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
               run: |
