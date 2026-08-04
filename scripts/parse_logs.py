@@ -42,6 +42,9 @@ if log_file:
     timestamp = ""
     error_message = ""
     exit_code = ""
+    capture_error = False
+    error_lines = []
+
 
     # Loop through all lines
     for line in lines:
@@ -51,19 +54,26 @@ if log_file:
         if "COMPONENT :" in line:
             component = line.partition("COMPONENT :")[2].strip()
 
+        elif "[ERROR]" in line:
+            capture_error = True
+            error_lines.append(line)
+
         elif "STATUS :" in line:
             value = line.partition("STATUS :")[2].strip()
             if value:
                 status = value
+            capture_error = False
 
         elif "TIME" in line:
             timestamp = line.partition("TIME")[2].replace(":", "", 1).strip()
 
-        elif "python:" in line:
-            error_message = line
-
         elif "exit code" in line.lower():
             exit_code = line.partition("exit code")[2].replace(".", "").strip()
+        
+        elif capture_error:
+            error_lines.append(line)
+    
+    error_message = "\n".join(error_lines)
 
     # Create summary AFTER loop finishes
     failure_summary = {
