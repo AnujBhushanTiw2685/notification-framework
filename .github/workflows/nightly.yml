@@ -17,15 +17,15 @@ jobs:
     steps:
 
         - name: Checkout Repository
-            uses: actions/checkout@v4
+          uses: actions/checkout@v4
 
             # Trigger Nightly Pipelines
 
         - name: Trigger Nightly Pipelines
-            env:
+          env:
                 GH_PAT: ${{ secrets.NOTIFICATION_FRAMEWORK_TOKEN }}
 
-            run: |
+          run: |
 
                 for repo in $COMPONENTS
                 do
