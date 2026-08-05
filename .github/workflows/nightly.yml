@@ -32,7 +32,8 @@ jobs:
                     echo "==================================="
                     echo "Triggering $repo..."
                     echo "==================================="
-
+                    
+                    echo "Token length: ${#GH_PAT}"
                     curl -L \
                         -X POST \
                         -H "Accept: application/vnd.github+json" \
