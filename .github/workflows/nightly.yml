@@ -63,7 +63,7 @@ jobs:
 
           run: |
             
-            python scripts/collect_nightly_status.py
+            python scripts/collect-nightly-status.py
 
         - name: Upload Nightly Artifacts
           uses: actions/upload-artifact@v4
