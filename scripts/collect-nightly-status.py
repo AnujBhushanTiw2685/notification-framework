@@ -101,22 +101,48 @@ for run in nightly_runs:
         env["OUTPUT_SUMMARY_FILE"] = (
             f"artifacts/{repository}_summary.json"
         )
+        try:
+            subprocess.run(
+                    ["python", "scripts/fetch_workflow_jobs.py"],
+                    check=True,
+                    env=env,
+            )
+            
+            subprocess.run(
+                    ["python", "scripts/download_logs.py"],
+                    check=True,
+                    env=env,
+            )
+            
+            subprocess.run(
+                    ["python", "scripts/parse_logs.py"],
+                    check=True,
+                    env=env,
+            )
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to process {repository}: {e}")
+            summary = {
 
-        subprocess.run(
-            ["python", "scripts/fetch_workflow_jobs.py"],
-            check=True,
-            env=env,
-        )
+                "repository": repository,
+                "workflow": run.get("workflow_name",""),
+                "component": repository,
+                "job": "",
+                "status": "PROCESSING_FAILED",
+                "timestamp": "",
+                "error": str(e),
+                "run_id": run["run_id"],
+                "run_url": run["run_url"],
+                "exit_code": ""
 
-        subprocess.run(
-            ["python", "scripts/download_logs.py"],
-            check=True,
-            env=env,
-        )
+            }
 
-        subprocess.run(
-            ["python", "scripts/parse_logs.py"],
-            check=True,
-            env=env,
-        )
+            with open(
+                f"artifacts/{repository}_summary.json",
+                "w"
+            ) as file:
+                json.dump(summary, file, indent=4)
+
+
+
+        
     

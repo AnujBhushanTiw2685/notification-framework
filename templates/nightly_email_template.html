@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Nightly Pipeline Report</title>
+
+    <style>
+
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background:#f5f5f5;
+            padding:40px;
+        }
+
+        .container{
+            max-width:1000px;
+            margin:auto;
+            background:white;
+            border-radius:8px;
+            box-shadow:0 0 10px rgba(0,0,0,.1);
+        }
+
+        .header{
+            background:#1565c0;
+            color:white;
+            padding:20px;
+            text-align:center;
+            font-size:28px;
+            font-weight:bold;
+        }
+
+        .section{
+            padding:25px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th{
+            background:#1976d2;
+            color:white;
+            padding:12px;
+            border:1px solid #ddd;
+        }
+
+        td{
+            padding:12px;
+            border:1px solid #ddd;
+        }
+
+        .success{
+            color:green;
+            font-weight:bold;
+        }
+
+        .failure{
+            color:red;
+            font-weight:bold;
+        }
+
+        .footer{
+            padding:20px;
+            text-align:center;
+            font-size:12px;
+            color:#666;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        🌙 Nightly Pipeline Report
+    </div>
+
+    <div class="section">
+
+        <table>
+
+            <tr>
+                <th>Component</th>
+                <th>Status</th>
+                <th>Failed Job</th>
+                <th>Failure Reason</th>
+                <th>Workflow Run</th>
+            </tr>
+
+            {{TABLE_ROWS}}
+
+        </table>
+
+         <div class="summary">
+
+            <b>Total Components :</b> {{TOTAL}}
+
+            <br>
+
+            <b>Passed :</b> {{PASSED}}
+
+            <br>
+
+            <b>Failed :</b> {{FAILED}}
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Generated automatically by Component Shared Workflow
+    </div>
+
+</div>
+
+</body>
+</html>
