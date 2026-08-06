@@ -7,7 +7,7 @@ env:
     OWNER: ${{ github.repository_owner }}
     COMPONENTS: "component1 component2 component3 component4 component5"
     EVENT_TYPE: nightly-run
-    WAIT_TIME: 60
+    WAIT_TIME: 120
 
 jobs:
   nightly:
