@@ -91,9 +91,10 @@ if log_file:
 
     }
 
-    with open("artifacts/failure_summary.json", "w") as file:
+    output_file = os.environ.get("OUTPUT_SUMMARY_FILE", "artifacts/failure_summary.json")
+    with open(output_file, "w") as file:
         json.dump(failure_summary, file, indent=4)
-
+        
     print("\n===== FAILURE SUMMARY =====")
     print(json.dumps(failure_summary, indent=4))
 

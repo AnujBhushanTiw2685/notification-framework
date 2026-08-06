@@ -1,6 +1,8 @@
 import os
 import json
 import urllib.request
+import subprocess
+import shutil
 
 OWNER = os.environ["OWNER"]
 TOKEN = os.environ["GITHUB_TOKEN"]
@@ -62,6 +64,59 @@ with open("artifacts/nightly_runs.json", "w") as file:
 print("\n===== NIGHTLY SUMMARY =====")
 print(json.dumps(nightly_runs, indent=4))
 
+print("\n===== PROCESSING COMPONENTS =====\n")
 
+for run in nightly_runs:
+    repository = run["repository"]
 
+    #success
+    if run["conclusion"] == "success":
+        summary = {
+            "repository": repository,
+            "workflow": run.get("workflow_name", ""),
+            "component": repository,
+            "job": "",
+            "status": "SUCCESS",
+            "timestamp": "",
+            "error": "",
+            "run_id": run["run_id"],
+            "run_url": run["run_url"],
+            "exit_code": ""
+        }
+        with open(f"artifacts/{repository}_summary.json", "w") as file:
+            json.dump(summary, file, indent=4)
+        print(f"{repository} -> SUCCESS")
+
+    #failure
+    elif run["conclusion"] == "failure":
+
+        print(f"{repository} -> FAILURE")
+
+        env = os.environ.copy()
+
+        env["OWNER"] = OWNER
+        env["REPOSITORY"] = repository
+        env["RUN_ID"] = str(run["run_id"])
+
+        env["OUTPUT_SUMMARY_FILE"] = (
+            f"artifacts/{repository}_summary.json"
+        )
+
+        subprocess.run(
+            ["python", "scripts/fetch_workflow_jobs.py"],
+            check=True,
+            env=env,
+        )
+
+        subprocess.run(
+            ["python", "scripts/download_logs.py"],
+            check=True,
+            env=env,
+        )
+
+        subprocess.run(
+            ["python", "scripts/parse_logs.py"],
+            check=True,
+            env=env,
+        )
     
