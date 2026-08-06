@@ -75,6 +75,7 @@ jobs:
 
         - name: Send Nightly Email
           env:
+            MODE: nightly
             SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
             SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           run: |
