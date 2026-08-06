@@ -6,6 +6,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+MODE = os.environ.get("MODE", "manual")
+
 with open("config/smtp_config.json", "r") as file:
     config = json.load(file)
 
